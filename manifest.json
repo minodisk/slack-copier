@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+
+  "name": "Slack Copy",
+  "description": "Format the logs of Slack in clipboard",
+  "version": "0.0.1",
+  "content_scripts": [
+    {
+      "matches": ["https://*.slack.com/*"],
+      "js": ["main.js"]
+    }
+  ],
+
+  "permissions": [
+    "clipboardRead",
+    "clipboardWrite",
+    "tabs",
+    "https://*.slack.com/*"
+  ]
+}
