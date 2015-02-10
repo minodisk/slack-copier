@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
 
-  "name": "Slack Copy",
+  "name": "Slack Copyier",
   "description": "Format the logs of Slack in clipboard",
   "version": "0.0.1",
   "content_scripts": [
