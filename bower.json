@@ -1,0 +1,20 @@
+{
+  "name": "slack-copier",
+  "version": "0.0.1",
+  "homepage": "https://github.com/minodisk/slack-copier",
+  "authors": [
+    "minodisk <daisuke.mino@gmail.com>"
+  ],
+  "main": "main.coffee",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3"
+  }
+}

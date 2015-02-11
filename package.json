@@ -1,0 +1,39 @@
+{
+  "name": "slack-copier",
+  "version": "0.0.1",
+  "description": "A Chrome extension to format copied text in Slack",
+  "main": "main.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "chai": "^1.10.0",
+    "coffeeify": "^1.0.0",
+    "gulp": "^3.8.11",
+    "karma": "^0.12.31",
+    "karma-browserify": "^3.0.1",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-coffee-preprocessor": "^0.2.1",
+    "karma-firefox-launcher": "^0.1.4",
+    "karma-mocha": "^0.1.10",
+    "karma-phantomjs-launcher": "^0.1.4"
+  },
+  "devDependencies": {
+    "mocha": "^2.1.0",
+    "coffee-script": "^1.9.0"
+  },
+  "scripts": {
+    "test": "./node_modules/karma/bin/karma run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/minodisk/slack-copier.git"
+  },
+  "author": "Daisuke Mino",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/minodisk/slack-copier/issues"
+  },
+  "homepage": "https://github.com/minodisk/slack-copier"
+}
