@@ -26,6 +26,6 @@ module.exports = (config) ->
     autoWatch: true
     browsers: [
       'PhantomJS'
-      'Chrome'
+      # 'Chrome'
     ]
     singleRun: false

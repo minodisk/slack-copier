@@ -15,8 +15,8 @@ class Copier
   @walk: ($parts, texts = []) ->
     $parts
       .each (i, el) =>
-        console.log i, el, el.nodeName
         $el = $ el
+        console.log i, el, el.nodeName
         return if $el.hasClass 'copyonly'
         switch el.nodeName
           when '#text'
@@ -29,6 +29,15 @@ class Copier
             texts.push '*'
             @walk $el.contents(), texts
             texts.push '*'
+          when 'CODE'
+            texts.push '`'
+            @walk $el.contents(), texts
+            texts.push '`'
+          when 'PRE'
+            texts.push '```'
+            @walk $el.contents(), texts
+            texts.push '```'
+          when ''
           else
             @walk $el.children(), texts
     texts
