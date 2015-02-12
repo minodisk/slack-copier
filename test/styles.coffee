@@ -151,7 +151,7 @@ module.exports =
     </div>
     """
 
-    code: """
+    preformatted: """
       <div id="msg_1423723032_000023" class=" message    avatar  unread   " data-ts="1423723032.000023" aria-labelledby="msg_1423723032_000023_label">
         <a class="msg_actions" data-msg-ts="1423723032.000023"><input type="checkbox" class="msg_select_cb"><i class="msg_cog fa fa-cog"></i></a>
         <span class="message_star_holder"><span class="star fa fa-star star_message" data-msg-id="1423723032.000023" data-c-id="G03L023QV"></span></span>
@@ -162,12 +162,33 @@ module.exports =
         <i class="copy_only">[15:37]</i><a href="/archives/slack-copier/p1423723032000023" target="new_1423710586584" title="" class="timestamp" data-original-title="Today&nbsp;&nbsp;at&nbsp;15:37:12
         Click to open in archives">15:37</a>
         <span class="message_content">
-          <pre class="special_formatting"><span class="copyonly">```</span>code<br>text<span class="copyonly">```</span></pre>
+          <pre class="special_formatting"><span class="copyonly">```</span>preformatted<br>code<span class="copyonly">```</span></pre>
         </span>
         <span id="msg_1423723032_000023_label" class="message_aria_label hidden">
           <strong>witz</strong>.
           <pre class="special_formatting"><span class="copyonly">```</span>code<br>text<span class="copyonly">```</span></pre>.
           fifteen thirty-seven.
+        </span>
+      </div>
+      """
+
+    quote: """
+      <div id="msg_1423761171_000004" class=" message    avatar  unread   " data-ts="1423761171.000004" aria-labelledby="msg_1423761171_000004_label">
+        <a class="msg_actions" data-msg-ts="1423761171.000004"><input type="checkbox" class="msg_select_cb"><i class="msg_cog fa fa-cog"></i></a>
+        <span class="message_star_holder"><span class="star fa fa-star star_message" data-msg-id="1423761171.000004" data-c-id="G03L023QV"></span></span>
+        <i class="copy_only"><br></i>
+        <i class="copy_only">
+          <a href="/team/witz" target="/team/witz" class="message_sender member color_U02SR3F1H" data-member-id="U02SR3F1H"> witz</a><i class="copy_only"></i>
+        </i>
+        <i class="copy_only">[02:12]</i><a href="/archives/slack-copier/p1423761171000004" target="new_1423760840674" title="" class="timestamp" data-original-title="Today&nbsp;&nbsp;at&nbsp;02:12:51
+        Click to open in archives">02:12</a>
+        <span class="message_content">
+          <div class="special_formatting_quote"><div class="quote_bar"><div class="shim"></div></div><div class="content dynamic_content_max_width"><span class="copyonly">&gt;</span> quoted<br><span class="copyonly">&gt;</span> text</div></div>
+        </span>
+        <span id="msg_1423761171_000004_label" class="message_aria_label hidden">
+          <strong>witz</strong>.
+          <div class="special_formatting_quote"><div class="quote_bar"><div class="shim"></div></div><div class="content dynamic_content_max_width"><span class="copyonly">&gt;</span> quoted<br><span class="copyonly">&gt;</span> text</div></div>.
+          two twelve.
         </span>
       </div>
       """
