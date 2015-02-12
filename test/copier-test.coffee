@@ -75,5 +75,5 @@ describe 'Copier', ->
           selection.selectAllChildren $body[0]
           Copier.markdown().should.equal """
             >quoted
-            text
+            >text
             """

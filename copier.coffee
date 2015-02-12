@@ -95,20 +95,24 @@ class Br extends Text
   toString: -> @constructor.name
 
 class Style extends Token
-  prefix: ''
-  postfix: ''
-  toMarkdown: -> @prefix + super() + @postfix
-class Bold extends Style
-  prefix: '**'
-  postfix: '**'
-class Italic extends Style
-  prefix: '*'
-  postfix: '*'
-class Code extends Style
-  prefix: '`'
-  postfix: '`'
-class Pre extends Style
-  prefix: '```'
-  postfix: '```'
-class Quote extends Style
-  prefix: '>'
+  pad: ''
+class WrapStyle extends Style
+  toMarkdown: -> @pad + super() + @pad
+class PrefixStyle extends Style
+  toMarkdown: ->
+    chunks = [@pad]
+    for token in @childTokens
+      chunks.push token.toMarkdown()
+      if token instanceof Br
+        chunks.push @pad
+    chunks.join ''
+class Bold extends WrapStyle
+  pad: '**'
+class Italic extends WrapStyle
+  pad: '*'
+class Code extends WrapStyle
+  pad: '`'
+class Pre extends WrapStyle
+  pad: '```'
+class Quote extends PrefixStyle
+  pad: '>'
