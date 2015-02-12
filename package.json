@@ -24,7 +24,7 @@
     "coffee-script": "^1.9.0"
   },
   "scripts": {
-    "test": "./node_modules/karma/bin/karma run"
+    "test": "./node_modules/karma/bin/karma start"
   },
   "repository": {
     "type": "git",
