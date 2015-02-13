@@ -9,6 +9,10 @@ dependencies:
   post:
     - bower install
 
+test:
+  post:
+    - npm run coveralls
+
 deployment:
   chrome-web-store:
     branch: master

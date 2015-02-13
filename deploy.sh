@@ -1,5 +1,4 @@
 npm run build
-npm run bump
 zip -r $FILE_NAME dest
 curl \
   -H "Authorization: Bearer $TOKEN"  \
