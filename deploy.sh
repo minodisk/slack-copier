@@ -1,9 +1,3 @@
-echo '---------------'
-echo $TOKEN
-echo $FILE_NAME
-echo $APP_ID
-echo '---------------'
-
 npm build
 zip -r $FILE_NAME dest
 curl \
