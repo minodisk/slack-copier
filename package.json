@@ -19,13 +19,18 @@
     "karma-phantomjs-launcher": "^0.1.4"
   },
   "devDependencies": {
+    "bower-webpack-plugin": "^0.1.6",
     "browserify-istanbul": "^0.1.4",
+    "coffee-loader": "^0.7.2",
     "coffee-script": "^1.9.0",
     "karma-bro": "^0.11.1",
     "karma-spec-reporter": "0.0.16",
-    "mocha": "^2.1.0"
+    "mocha": "^2.1.0",
+    "webpack": "^1.5.3"
   },
   "scripts": {
+    "build": "./node_modules/webpack/bin/webpack.js --colors",
+    "develop": "./node_modules/webpack/bin/webpack.js --colors -w",
     "start": "./node_modules/karma/bin/karma start",
     "test": "./node_modules/karma/bin/karma start --no-auto-watch --single-run",
     "coveralls": "cat ./coverage/phantomjs/lcov.info | ./node_modules/coveralls/bin/coveralls.js"

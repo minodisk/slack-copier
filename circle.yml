@@ -2,8 +2,8 @@ machine:
   timezone:
     Asia/Tokyo
   environment:
-    $FILE_NAME: slack-copier.zip
-    $APP_ID: bdidaagondbaeaehfhjkmdmidhaabcmd
+    FILE_NAME: slack-copier.zip
+    APP_ID: bdidaagondbaeaehfhjkmdmidhaabcmd
 
 dependencies:
   post:
