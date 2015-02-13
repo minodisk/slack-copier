@@ -6,33 +6,12 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-    "chai": "^1.10.0",
-    "coffeeify": "^1.0.0",
-    "karma": "^0.12.31",
-    "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^0.1.7",
-    "karma-coffee-preprocessor": "^0.2.1",
-    "karma-coverage": "^0.2.7",
-    "karma-firefox-launcher": "^0.1.4",
-    "karma-mocha": "^0.1.10",
-    "karma-phantomjs-launcher": "^0.1.4"
-  },
-  "devDependencies": {
-    "bower-webpack-plugin": "^0.1.6",
-    "browserify-istanbul": "^0.1.4",
-    "coffee-loader": "^0.7.2",
-    "coffee-script": "^1.9.0",
-    "karma-bro": "^0.11.1",
-    "karma-spec-reporter": "0.0.16",
-    "mocha": "^2.1.0",
-    "webpack": "^1.5.3"
-  },
   "scripts": {
     "build": "./node_modules/webpack/bin/webpack.js --colors",
     "develop": "./node_modules/webpack/bin/webpack.js --colors -w",
     "start": "./node_modules/karma/bin/karma start",
     "test": "./node_modules/karma/bin/karma start --no-auto-watch --single-run",
+    "bump": "./mode_modules/coffee-script/bin/coffee bump.coffee",
     "coveralls": "cat ./coverage/phantomjs/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
@@ -44,5 +23,26 @@
   "bugs": {
     "url": "https://github.com/minodisk/slack-copier/issues"
   },
-  "homepage": "https://github.com/minodisk/slack-copier"
+  "homepage": "https://github.com/minodisk/slack-copier",
+  "dependencies": {
+    "bower-webpack-plugin": "^0.1.6",
+    "chai": "^2.0.0",
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.9.0",
+    "istanbul": "^0.3.5",
+    "istanbul-instrumenter-loader": "^0.1.2",
+    "karma": "^0.12.31",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-coverage": "^0.2.7",
+    "karma-mocha": "^0.1.10",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-sourcemap-loader": "^0.3.3",
+    "karma-spec-reporter": "0.0.16",
+    "karma-webpack": "^1.5.0",
+    "lodash": "^3.2.0",
+    "mocha": "^2.1.0",
+    "semver": "^4.3.0",
+    "webpack": "^1.5.3"
+  }
 }

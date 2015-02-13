@@ -1,20 +1,43 @@
 {
-  "manifest_version": 2,
-
-  "name": "Slack Copyier",
-  "description": "Format the logs of Slack in clipboard",
-  "version": "0.0.1",
-  "content_scripts": [
-    {
-      "matches": ["https://*.slack.com/*"],
-      "js": ["main.js"]
-    }
-  ],
-
-  "permissions": [
-    "clipboardRead",
-    "clipboardWrite",
-    "tabs",
-    "https://*.slack.com/*"
-  ]
+  "name": "slack-copier",
+  "version": "0.0.4",
+  "description": "A Chrome extension to format copied text in Slack",
+  "main": "main.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "./node_modules/webpack/bin/webpack.js --colors",
+    "develop": "./node_modules/webpack/bin/webpack.js --colors -w",
+    "start": "./node_modules/karma/bin/karma start",
+    "test": "./node_modules/karma/bin/karma start --no-auto-watch --single-run",
+    "coveralls": "cat ./coverage/phantomjs/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/minodisk/slack-copier.git"
+  },
+  "author": "Daisuke Mino",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/minodisk/slack-copier/issues"
+  },
+  "homepage": "https://github.com/minodisk/slack-copier",
+  "dependencies": {
+    "bower-webpack-plugin": "^0.1.6",
+    "chai": "^2.0.0",
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.9.0",
+    "karma": "^0.12.31",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-mocha": "^0.1.10",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-sourcemap-loader": "^0.3.3",
+    "karma-spec-reporter": "0.0.16",
+    "karma-webpack": "^1.5.0",
+    "mocha": "^2.1.0",
+    "semver": "^4.3.0",
+    "webpack": "^1.5.3"
+  }
 }

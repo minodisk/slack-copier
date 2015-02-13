@@ -1,4 +1,3 @@
-// var webpack = require('webpack');
 var BowerWebpackPlugin = require('bower-webpack-plugin');
 
 module.exports = {
@@ -9,7 +8,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.coffee$/, loader: 'coffee' }
+      { test: /\.coffee$/, loader: 'coffee-loader' }
     ]
   },
   plugins: [

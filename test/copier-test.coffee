@@ -1,5 +1,6 @@
-Copier = require '../src/copier'
-styles = require './styles'
+$ = require 'jquery'
+Copier = require '../src/copier.coffee'
+styles = require './styles.coffee'
 
 describe 'Copier', ->
 

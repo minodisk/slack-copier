@@ -1,37 +1,38 @@
-istanbul = require 'browserify-istanbul'
+webpack = require './webpack.config'
+_ = require 'lodash'
 
 module.exports = (config) ->
   config.set
     basePath: ''
     frameworks: [
-      'browserify'
       'mocha'
       'chai'
     ]
     files: [
-      'bower_components/jquery/dist/jquery.js'
       'test/**/*-test.coffee'
     ]
     exclude: []
     preprocessors:
-      # 'main.coffee': ['browserify']
-      'test/**/*-test.coffee': [ 'browserify' ]
-    browserify:
-      extensions: ['.coffee']
-      transform: [
-        'coffeeify'
-        # istanbul #ignore: ['node_modules/**', 'test/**']
+      'test/**/*-test.coffee': [
+        'webpack'
+        'sourcemap'
       ]
-      watch: true
-      debug: true
+    webpack:
+      module: _.extend {}, webpack.module,
+        postLoaders: [
+          test: /\.coffee$/
+          exclude: /(test|node_modules|bower_components)\//
+          loader: 'istanbul-instrumenter'
+        ]
+      plugins: webpack.plugins
     reporters: [
       'spec'
-      # 'coverage'
+      'coverage'
     ]
-    # coverageReporter:
-    #   type: 'lcov'
-    #   dir: 'coverage'
-    #   subdir: (browser) -> browser.toLowerCase().split(/[ /-]/)[0]
+    coverageReporter:
+      type: 'lcov'
+      dir: 'coverage'
+      subdir: (browser) -> browser.toLowerCase().split(/[ /-]/)[0]
     port: 9876
     colors: true
     logLevel: config.LOG_INFO
