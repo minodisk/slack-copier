@@ -8,9 +8,9 @@
   },
   "scripts": {
     "build": "./node_modules/webpack/bin/webpack.js --colors",
-    "develop": "./node_modules/webpack/bin/webpack.js --colors -w",
-    "start": "./node_modules/karma/bin/karma start",
+    "builds": "./node_modules/webpack/bin/webpack.js --colors -w",
     "test": "./node_modules/karma/bin/karma start --no-auto-watch --single-run",
+    "tests": "./node_modules/karma/bin/karma start",
     "bump": "./mode_modules/coffee-script/bin/coffee bump.coffee",
     "coveralls": "cat ./coverage/phantomjs/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },

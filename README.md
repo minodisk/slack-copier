@@ -3,6 +3,34 @@
 A Chrome extension to copy text as markdown in Slack
 
 
+## Development
+
+> This cycle will be improved.
+
+```sh
+npm install && bower install
+```
+
+### Building
+
+```sh
+npm run builds
+```
+
+### Testing
+
+```sh
+npm run tests
+```
+
+### Release
+
+```sh
+npm run bump
+git commit package.json -m "Bump"
+git push
+```
+
 [circleci-image]: https://img.shields.io/circleci/project/minodisk/slack-copier/master.svg?style=flat-square
 [circleci-url]: https://circleci.com/gh/minodisk/slack-copier/tree/master
 [coveralls-image]: https://img.shields.io/coveralls/minodisk/slack-copier.svg?style=flat-square
