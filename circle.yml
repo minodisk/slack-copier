@@ -1,3 +1,7 @@
 machine:
   timezone:
     Asia/Tokyo
+
+dependencies:
+  post:
+    - bower install
