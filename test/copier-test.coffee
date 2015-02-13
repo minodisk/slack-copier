@@ -1,4 +1,4 @@
-Copier = require '../copier'
+Copier = require '../src/copier'
 styles = require './styles'
 
 describe 'Copier', ->
