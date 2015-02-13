@@ -13,4 +13,4 @@ deployment:
   chrome-web-store:
     branch: master
     commands:
-      - ./deploy.sh
+      - sh ./deploy.sh
