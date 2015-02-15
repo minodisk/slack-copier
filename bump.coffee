@@ -11,4 +11,4 @@ fs.writeFileSync PACKAGE_JSON, JSON.stringify pkg, null, 2
 
 manifest = JSON.parse fs.readFileSync MANIFEST_JSON
 manifest.version = pkg.version
-fs.writeFileSync MANIFEST_JSON, JSON.stringify pkg, null, 2
+fs.writeFileSync MANIFEST_JSON, JSON.stringify manifest, null, 2
