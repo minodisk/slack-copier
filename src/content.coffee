@@ -1,4 +1,4 @@
 copier = require './copier.coffee'
 
-console.clear()
-console.log chrome
+chrome.runtime.sendMessage
+  type: 'initialize'

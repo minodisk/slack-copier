@@ -1,12 +1,20 @@
-chrome.contextMenus.create
-  id: 'markdown'
-  type: 'normal'
-  title: 'Copy as markdown'
-  contexts: [
-    'selection'
-  ]
+{contextMenus: {create, onClicked}} = chrome
 
-chrome.contextMenus.onClicked.addListener (info, tab) ->
-  console.log info, tab
+chrome.runtime.onMessage.addListener (req, sender, cb) ->
+  Background[req.type] req, sender, cb
 
-console.log 'initizlied'
+class Background
+
+  @initialize: (req, sender, cb) ->
+    create
+      id: 'markdown'
+      type: 'normal'
+      title: 'Copy as markdown'
+      contexts: [
+        'selection'
+      ]
+    onClicked.addListener @onClicked
+    console.log 'initialized'
+
+  @onClicked: (info, tab) ->
+      console.log info, tab

@@ -11,6 +11,7 @@
     }
   ],
   "background": {
+    "persistent": false,
     "scripts": [
       "slack-copier-background.js"
     ]
