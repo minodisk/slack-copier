@@ -27,13 +27,17 @@ class Copier
     root = new Root
     for el in $contents
       $el = $ el
-      root.addToken @tokenizeMessageContent new MessageContent(), $el.find('.message_content').contents()
+      console.log $el.find('.message_content').length, $el.find('.message_content').contents().length
+      $messageContent = $el.find '.message_content'
+      continue if $messageContent.length is 0
+      root.addToken @tokenizeMessageContent new MessageContent(), $messageContent.contents()
     root
 
   @tokenizeMessageContent: (parent, $els) ->
     for el, i in $els
       $el = $ el
       continue if $el.hasClass 'copyonly'
+      console.log $el[0].nodeName
       switch $el[0].nodeName
         when '#text'
           t = $el.text()

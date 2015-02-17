@@ -24,5 +24,5 @@ class Background
 
   @onClicked: (info, tab) ->
     console.log 'onClicked:', info, tab
-    chrome.tabs.sendMessage tab.id, type: info.menuItemId, {}, (resp) ->
+    chrome.tabs.sendMessage tab.id, type: info.menuItemId, (resp) ->
       console.log 'resp:', resp
