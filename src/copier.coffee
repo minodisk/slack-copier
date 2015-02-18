@@ -3,15 +3,8 @@ $ = require 'jquery'
 module.exports =
 class Copier
 
-  @markdown: ->
-    selection = window.getSelection()
-    len = selection.rangeCount
-    $selects = $()
-    for i in [0...len] by 1
-      range = selection.getRangeAt i
-      df = range.cloneContents()
-      $selects = $selects.add df.childNodes
-    token = @parse $selects
+  @markdown: ($node) ->
+    token = @parse $node
     console.log token.toString()
     token.toMarkdown()
 
