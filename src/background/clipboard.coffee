@@ -1,7 +1,7 @@
 module.exports =
 class Clipboard
 
-  get: ->
+  @get: ->
     ta = document.createElement 'textarea'
     document.body.appendChild ta
     ta.select()
@@ -9,7 +9,7 @@ class Clipboard
     document.body.removeChild ta
     ta.value
 
-  set: (text) ->
+  @set: (text) ->
     ta = document.createElement 'textarea'
     document.body.appendChild ta
     ta.value = text

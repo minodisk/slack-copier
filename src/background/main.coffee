@@ -1,5 +1,6 @@
 {contextMenus: {create, removeAll, onClicked}} = chrome
 Clipboard = require './clipboard.coffee'
+console.log Clipboard
 
 chrome.runtime.onInstalled.addListener (details) ->
   Background.initialize()
