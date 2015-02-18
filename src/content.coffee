@@ -4,4 +4,6 @@ chrome.runtime.sendMessage
   type: 'initialize'
 
 chrome.runtime.onMessage.addListener (req, sender, cb) ->
-  cb copier.markdown()
+  console.log md = copier.markdown()
+  # cb copier.markdown()
+  cb md

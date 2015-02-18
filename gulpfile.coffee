@@ -16,8 +16,8 @@ BowerWebpackPlugin = require 'bower-webpack-plugin'
 gulp.task 'default', ['startTest', 'startBuild']
 
 gulp.task 'startTest', ->
-  # karma.start
-  #   configFile: KARMA_CONF
+  karma.start
+    configFile: KARMA_CONF
 
 gulp.task 'test', ->
   karma.start

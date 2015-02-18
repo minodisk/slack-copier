@@ -10,7 +10,7 @@ class Copier
     for i in [0...len] by 1
       range = selection.getRangeAt i
       df = range.cloneContents()
-      $selects = $selects.add df
+      $selects = $selects.add df.childNodes
     token = @parse $selects
     console.log token.toString()
     token.toMarkdown()
@@ -18,16 +18,16 @@ class Copier
   @parse: ($selects) ->
     $messages = $selects.filter('.message').add($selects.find('.message'))
     if $messages.length is 0
-      $contents = $selects
+      root = new Root
+      @tokenizeMessageContent root, $selects.contents()
+      root
     else
-      $contents = $messages.contents()
-    @tokenize $contents
+      @tokenizeMessage $messages.contents()
 
-  @tokenize: ($contents) ->
+  @tokenizeMessage: ($contents) ->
     root = new Root
     for el in $contents
       $el = $ el
-      console.log $el.find('.message_content').length, $el.find('.message_content').contents().length
       $messageContent = $el.find '.message_content'
       continue if $messageContent.length is 0
       root.addToken @tokenizeMessageContent new MessageContent(), $messageContent.contents()
@@ -35,33 +35,36 @@ class Copier
 
   @tokenizeMessageContent: (parent, $els) ->
     for el, i in $els
-      $el = $ el
-      continue if $el.hasClass 'copyonly'
-      console.log $el[0].nodeName
-      switch $el[0].nodeName
-        when '#text'
-          t = $el.text()
-          continue if t is ''
-          text = new Text t
-          continue if text.isEmpty
-          parent.addToken text
-        when 'BR'
-          parent.addToken new Br
-        when 'B'
-          parent.addToken @tokenizeMessageContent new Bold(), $el.contents()
-        when 'I'
-          parent.addToken @tokenizeMessageContent new Italic(), $el.contents()
-        when 'CODE'
-          parent.addToken @tokenizeMessageContent new Code(), $el.contents()
-        when 'PRE'
-          parent.addToken @tokenizeMessageContent new Pre(), $el.contents()
-        when 'DIV'
-          if $el.hasClass 'special_formatting_quote'
-            parent.addToken @tokenizeMessageContent new Quote(), $el.contents()
-          else
-            @tokenizeMessageContent parent, $el.contents()
+      @tokenizePartial parent, el
+    parent
+
+  @tokenizePartial: (parent, el) ->
+    $el = $ el
+    return parent if $el.hasClass 'copyonly'
+    switch el.nodeName
+      when '#text'
+        t = $el.text()
+        return parent if t is ''
+        text = new Text t
+        return parent if text.isEmpty
+        parent.addToken text
+      when 'BR'
+        parent.addToken new Br
+      when 'B'
+        parent.addToken @tokenizePartial new Bold(), $el.contents()
+      when 'I'
+        parent.addToken @tokenizePartial new Italic(), $el.contents()
+      when 'CODE'
+        parent.addToken @tokenizePartial new Code(), $el.contents()
+      when 'PRE'
+        parent.addToken @tokenizePartial new Pre(), $el.contents()
+      when 'DIV'
+        if $el.hasClass 'special_formatting_quote'
+          parent.addToken @tokenizePartial new Quote(), $el.contents()
         else
-          @tokenizeMessageContent parent, $el.contents()
+          @tokenizePartial parent, $el.contents()
+      else
+        @tokenizePartial parent, $el.contents()
     parent
 
 class Token
@@ -89,7 +92,6 @@ class MessageContent extends Token
 class Text extends Token
   identifier: ''
   constructor: (identifier) ->
-    # console.log identifier, '->', identifier.replace /^\s*(.*?)\s*$/, '$1'
     super()
     if identifier? and identifier isnt ''
       @identifier = identifier.replace /^\s*(.*?)\s*$/, '$1'
