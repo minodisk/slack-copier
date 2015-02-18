@@ -1,17 +1,17 @@
 $ = require 'jquery'
-Copier = require '../src/copier.coffee'
+{markdown} = require '../src/content/parser.coffee'
 styles = require './styles.coffee'
 
 describe 'Copier', ->
 
-  [$body, selection] = []
-
-  before ->
-    $body = $ 'body'
-    selection = window.getSelection()
-
-  beforeEach ->
-    $body.empty()
+  # [$body, selection] = []
+  #
+  # before ->
+  #   $body = $ 'body'
+  #   selection = window.getSelection()
+  #
+  # beforeEach ->
+  #   $body.empty()
 
   describe '.markdown()', ->
 
@@ -22,14 +22,12 @@ describe 'Copier', ->
         {normal, bold, italics, code, preformatted, quote} = styles.singleline
 
         it 'should format normal', ->
-          $body.html normal
-          selection.selectAllChildren $body[0]
-          Copier.markdown().should.equal 'normal'
+          markdown($(normal)).should.equal 'normal'
 
-      #   it 'should format bold', ->
-      #     $body.html bold
-      #     selection.selectAllChildren $body[0]
-      #     Copier.markdown().should.equal '**bold**'
+        # it 'should format bold', ->
+        #   $body.html bold
+        #   selection.selectAllChildren $body[0]
+        #   Copier.markdown().should.equal '**bold**'
       #
       #   it 'should format italics', ->
       #     $body.html italics

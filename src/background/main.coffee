@@ -1,4 +1,5 @@
-{contextMenus: {create, onClicked}} = chrome
+{contextMenus: {create, removeAll, onClicked}} = chrome
+Clipboard = require './clipboard.coffee'
 
 chrome.runtime.onInstalled.addListener (details) ->
   Background.initialize()
@@ -8,11 +9,10 @@ chrome.runtime.onMessage.addListener (req, sender, cb) ->
 
 class Background
 
-  @initialized: false
-
   @initialize: (req, sender, cb) ->
-    return if @initialized
-    @initialized = true
+    removeAll()
+    onClicked.removeListener @onClicked
+
     create
       id: 'markdown'
       type: 'normal'
@@ -22,7 +22,12 @@ class Background
       ]
     onClicked.addListener @onClicked
 
+    console.log 'initialize'
+
   @onClicked: (info, tab) ->
     console.log 'onClicked:', info, tab
-    chrome.tabs.sendMessage tab.id, type: info.menuItemId, (resp) ->
-      console.log 'resp:', resp
+    switch info.menuItemId
+      when 'markdown'
+        chrome.tabs.sendMessage tab.id, type: 'markdown', (resp) ->
+          console.log 'resp:', resp
+          Clipboard.set resp

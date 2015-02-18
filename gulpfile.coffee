@@ -1,8 +1,9 @@
 gulp = require 'gulp'
-{server: karma} = require 'karma'
 {exec} = require 'child_process'
 webpack = require 'gulp-webpack'
 rename = require 'gulp-rename'
+{server: karma} = require 'karma'
+BowerWebpackPlugin = require 'bower-webpack-plugin'
 fs = require 'fs'
 {inc} = require 'semver'
 
@@ -11,25 +12,27 @@ PACKAGE_JSON = 'package.json'
 MANIFEST_JSON = 'dest/manifest.json'
 
 increase = (v) -> inc v, 'patch'
-BowerWebpackPlugin = require 'bower-webpack-plugin'
 
 gulp.task 'default', ['startTest', 'startBuild']
 
-gulp.task 'startTest', ->
+gulp.task 'startTest', (done) ->
   karma.start
     configFile: KARMA_CONF
+    singleRun: false
+  , done
 
-gulp.task 'test', ->
+gulp.task 'test', (done) ->
   karma.start
     configFile: KARMA_CONF
     singleRun: true
+  , done
 
 gulp.task 'startBuild', ->
   for {src, renamed} in [
-      src: 'src/content.coffee'
+      src: 'src/content/main.coffee'
       renamed: 'slack-copier-content.js'
     ,
-      src: 'src/background.coffee'
+      src: 'src/background/main.coffee'
       renamed: 'slack-copier-background.js'
   ]
     gulp.src src

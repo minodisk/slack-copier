@@ -1,5 +1,4 @@
-webpack = require './webpack.config'
-_ = require 'lodash'
+BowerWebpackPlugin = require 'bower-webpack-plugin'
 
 module.exports = (config) ->
   config.set
@@ -18,13 +17,19 @@ module.exports = (config) ->
         'sourcemap'
       ]
     webpack:
-      module: _.extend {}, webpack.module,
+      module:
+        loaders: [
+          test: /\.coffee$/
+          loader: 'coffee-loader'
+        ]
         postLoaders: [
           test: /\.coffee$/
           exclude: /(test|node_modules|bower_components)\//
           loader: 'istanbul-instrumenter'
         ]
-      plugins: webpack.plugins
+      plugins: [
+        new BowerWebpackPlugin
+      ]
     reporters: [
       'spec'
       'coverage'

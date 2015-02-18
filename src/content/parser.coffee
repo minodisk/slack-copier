@@ -1,10 +1,10 @@
 $ = require 'jquery'
 
 module.exports =
-class Copier
+class Parser
 
-  @markdown: ($node) ->
-    token = @parse $node
+  @markdown: ($contents) =>
+    token = @parse $contents
     console.log token.toString()
     token.toMarkdown()
 
