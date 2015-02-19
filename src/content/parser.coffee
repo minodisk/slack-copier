@@ -5,17 +5,22 @@ class Parser
 
   @markdown: (root) =>
     token = @parse $ root
+    return unless token?
     console.log token.toString()
     token.toMarkdown()
 
   @parse: ($contents) ->
     $messages = $contents.filter('.message').add($contents.find('.message'))
-    if $messages.length > 0
-      @tokenizeMessages $messages
-    else
+    if $messages.length is 0
+      # TODO make proper container
+      $messages = $contents.parents '.message'
+      console.log $messages.length
+      return if $messages.length is 0
       root = new Root
-      @tokenizeMessageContent root, $contents.contents()
-      root
+      # @tokenizeMessageContent root, $contents.contents()
+      return root
+
+    @tokenizeMessages $messages
 
   @tokenizeMessages: ($messages) ->
     root = new Root
@@ -29,32 +34,34 @@ class Parser
     @walkContents mc, $messageContent
     mc
 
-  @walkContents: (container, $container) ->
-    c = container
+  @walkContents: (containerToken, $container) ->
     for el in $container.contents()
-      $el = $ el
-      continue if $el.hasClass 'copyonly'
-      switch el.nodeName
-        when '#text'
-          c.addToken new Text $el.text()
-        when 'BR'
-          c.addToken new Br
-        when 'B'
-          c.addToken @walkContents new Bold(), $el
-        when 'I'
-          c.addToken @walkContents new Italic(), $el
-        when 'CODE'
-          c.addToken @walkContents new Code(), $el
-        when 'PRE'
-          c.addToken @walkContents new Pre(), $el
-        when 'DIV'
-          if $el.hasClass 'special_formatting_quote'
-            c.addToken @walkContents new Quote(), $el
-          else
-            @walkContents c, $el
+      @walk containerToken, el
+    containerToken
+
+  @walk: (c, el) ->
+    $el = $ el
+    return if $el.hasClass 'copyonly'
+    switch el.nodeName
+      when '#text'
+        c.addToken new Text $el.text()
+      when 'BR'
+        c.addToken new Br
+      when 'B'
+        c.addToken @walkContents new Bold(), $el
+      when 'I'
+        c.addToken @walkContents new Italic(), $el
+      when 'CODE'
+        c.addToken @walkContents new Code(), $el
+      when 'PRE'
+        c.addToken @walkContents new Pre(), $el
+      when 'DIV'
+        if $el.hasClass 'special_formatting_quote'
+          c.addToken @walkContents new Quote(), $el
         else
           @walkContents c, $el
-    c
+      else
+        @walkContents c, $el
 
 
 class Token

@@ -5,27 +5,25 @@ A Chrome extension to copy text as markdown in Slack
 
 ## Development
 
-> This cycle will be improved.
+> Managed with gulp.
+
+### Ready
 
 ```sh
-npm install && bower install
+npm install
 ```
 
-### Building
+### Building and testing
 
 ```sh
-npm run builds
+gulp
 ```
 
-### Testing
+### Publish
 
 ```sh
-npm run tests
-```
+gulp publish
 
-### Release
-
-```sh
 npm run bump
 git commit package.json -m "Bump"
 git push
