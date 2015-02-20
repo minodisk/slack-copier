@@ -12,8 +12,8 @@ describe 'Copier', ->
 
       it 'should format normal', ->
         markdown(normal).should.equal 'normal'
-        $c = $(normal).find('.message_content').contents().filter (i, el) -> true
-        markdown($c).should.equal 'normal'
+        $texts = $(normal).find('.message_content').contents().filter (i, el) -> el.nodeName is '#text'
+        markdown($texts[0]).should.equal 'normal'
 
       it 'should format bold', ->
         markdown(bold).should.equal '**bold**'
