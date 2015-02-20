@@ -13,7 +13,6 @@ class Parser
     $messages = $contents.filter('.message').add($contents.find('.message'))
     if $messages.length is 0
       $messages = $contents.parents '.message'
-      console.log $messages.length
       return if $messages.length is 0
       # TODO this is fake, make proper container
       return @tokenizeMessages $messages
