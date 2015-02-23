@@ -6,16 +6,16 @@ describe 'Copier', ->
 
   describe '.markdown()', ->
 
-    filterTexts = (el) ->
-      filter = (i, el) -> el.nodeName is '#text'
+    findTexts = (el) ->
+      filterNotCopyonly = (i, el) -> !$(el).hasClass 'copyonly'
+      filterText = (i, el) -> el.nodeName is '#text'
       $c = $(el).find('.message_content')
       $texts = $()
       while $c.contents().length
-        $c = $c.contents()
-        $texts = $texts.add $c.filter(filter)
-      # $texts = $messageContents.contents().filter(filter).add $messageContents.find('.content').contents().filter(filter)
-      for text, i in $texts
-        console.log i, text
+        $c = $c.contents().filter filterNotCopyonly
+        $texts = $texts.add $c.filter filterText
+      # for text, i in $texts
+      #   console.log i, text
       $texts
 
     describe 'singleline', ->
@@ -25,7 +25,7 @@ describe 'Copier', ->
       it 'should format normal', ->
         el = normal
         markdown(el).should.equal 'normal'
-        for text, i in filterTexts el
+        for text, i in findTexts el
           markdown(text).should.equal if i is 0
             'normal'
           else
@@ -34,8 +34,8 @@ describe 'Copier', ->
       it 'should format bold', ->
         el = bold
         markdown(el).should.equal '**bold**'
-        for text, i in filterTexts el
-          markdown(text).should.equal if i is 2
+        for text, i in findTexts el
+          markdown(text).should.equal if i is 1
             '**bold**'
           else
             ''
@@ -43,8 +43,8 @@ describe 'Copier', ->
       it 'should format italics', ->
         el = italics
         markdown(el).should.equal '*italics*'
-        for text, i in filterTexts el
-          markdown(text).should.equal if i is 2
+        for text, i in findTexts el
+          markdown(text).should.equal if i is 1
             '*italics*'
           else
             ''
@@ -52,14 +52,17 @@ describe 'Copier', ->
       it 'should format code', ->
         el = code
         markdown(el).should.equal '`code`'
-        for text in filterTexts el
-          markdown(text).should.equal '`code`'
+        for text, i in findTexts el
+          markdown(text).should.equal if i is 1
+           '`code`'
+          else
+            ''
 
       it 'should format preformatted', ->
         el = preformatted
         markdown(el).should.equal '```preformatted```'
-        for text, i in filterTexts el
-          markdown(text).should.equal if i is 2
+        for text, i in findTexts el
+          markdown(text).should.equal if i is 1
             '```preformatted```'
           else
             ''
@@ -70,8 +73,8 @@ describe 'Copier', ->
           > quote
 
           """
-        for text, i in filterTexts el
-          markdown(text).should.equal if i is 2
+        for text, i in findTexts el
+          markdown(text).should.equal if i is 1
             """
             > quote
 

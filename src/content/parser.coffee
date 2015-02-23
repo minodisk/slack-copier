@@ -4,18 +4,21 @@ module.exports =
 class Parser
 
   @markdown: (root) =>
-    token = @parse $ root
-    return unless token?
+    token = @parse root
+    return '' unless token?
     console.log token.toString()
     token.toMarkdown()
 
-  @parse: ($contents) ->
-    $messages = $contents.filter('.message').add($contents.find('.message'))
+  @parse: (el) ->
+    $el = $ el
+    $messages = $el.filter('.message').add($el.find('.message'))
     if $messages.length is 0
-      $messages = $contents.parents '.message'
+      $messages = $el.parents '.message'
       return if $messages.length is 0
       # TODO this is fake, make proper container
-      return @tokenizeMessages $messages
+      root = @tokenizeMessages $messages
+      root.filter $el
+      return root
 
     @tokenizeMessages $messages
 
@@ -41,7 +44,7 @@ class Parser
     return if $el.hasClass 'copyonly'
     switch el.nodeName
       when '#text'
-        c.addToken new Text $el.text()
+        c.addToken new Text $el
       when 'BR'
         c.addToken new Br
       when 'B'
@@ -82,6 +85,19 @@ class Container extends Token
     for token in @childTokens
       return false unless token.isEmpty()
     true
+  filter: (el) ->
+    childTokens = []
+    for token in @childTokens
+      if token instanceof Chunk
+        unless token.isSame el
+          continue
+        else
+          childTokens.push token
+      else
+        token.filter el
+        continue if token.isEmpty()
+        childTokens.push token
+    @childTokens = childTokens
   toString: ->
     "#{@constructor.name}[#{(token.toString() for token in @childTokens).join ', '}]"
   toMarkdown: ->
@@ -89,6 +105,7 @@ class Container extends Token
       for token in @childTokens
         token.toMarkdown()
     ).join ''
+
 class Root extends Container
 class Sender extends Container
 class Time extends Container
@@ -127,17 +144,22 @@ class Quote extends Oneline
   pre: '> '
 
 class Chunk extends Token
-  constructor: -> @_isEmpty = false
-  isEmpty: -> @_isEmpty
-class Text extends Chunk
   identifier: ''
-  constructor: (identifier) ->
+  constructor: (el) ->
     super()
+    @_$el = $ el
+    @_isEmpty = false
+  isSame: (el) -> @_$el[0] is el[0]
+  isEmpty: -> @_isEmpty
+  toString: -> @constructor.name
+  toMarkdown: -> @identifier
+class Text extends Chunk
+  constructor: ->
+    super
+    identifier = @_$el.text()
     if identifier? and identifier isnt ''
       @identifier = identifier.replace /^\s*(.*?)\s*$/, '$1'
     @_isEmpty = @identifier is ''
   toString: -> "#{@constructor.name}(#{@identifier})"
-  toMarkdown: -> @identifier
-class Br extends Text
+class Br extends Chunk
   identifier: '\n'
-  toString: -> @constructor.name
