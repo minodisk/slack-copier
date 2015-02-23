@@ -14,8 +14,8 @@ class Parser
     $messages = $el.filter('.message').add($el.find('.message'))
     if $messages.length is 0
       $messages = $el.parents '.message'
+      console.log $messages.length
       return if $messages.length is 0
-      # TODO this is fake, make proper container
       root = @tokenizeMessages $messages
       root.filter $el
       return root
