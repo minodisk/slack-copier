@@ -70,12 +70,14 @@ describe 'Copier', ->
       it 'should format quote', ->
         el = quote
         markdown(el).should.equal """
+
           > quote
 
           """
         for text, i in findTexts el
           markdown(text).should.equal if i is 1
             """
+
             > quote
 
             """
@@ -100,6 +102,7 @@ describe 'Copier', ->
 
       it 'should format quote', ->
         markdown(quote).should.equal """
+
           > quoted
           > text
 
@@ -107,10 +110,18 @@ describe 'Copier', ->
 
     describe 'complex', ->
 
-      {quoteAndNormal} = require './sample-complex.coffee'
+      {quoteAndNormal, bot} = require './sample-complex.coffee'
 
-      it 'should formate quote and normal', ->
+      it 'should format quote and normal', ->
         markdown(quoteAndNormal).should.equal """
+
           > quoted
           normal
+          """
+
+      it 'should format bot', ->
+        markdown(bot).should.equal """
+          abc
+          > def
+
           """

@@ -6,7 +6,7 @@ class Parser
   @markdown: (root) =>
     token = @parse root
     return '' unless token?
-    console.log token.toString()
+    # console.log token.toString()
     token.toMarkdown()
 
   @parse: (el) ->
@@ -14,10 +14,12 @@ class Parser
     $messages = $el.filter('.message').add($el.find('.message'))
     if $messages.length is 0
       $messages = $el.parents '.message'
-      console.log $messages.length
+      # console.log $messages.length
       return if $messages.length is 0
       root = @tokenizeMessages $messages
+      # console.log 'before filter:', root.toString()
       root.filter $el
+      # console.log 'after filter :', root.toString()
       return root
 
     @tokenizeMessages $messages
@@ -42,24 +44,28 @@ class Parser
   @walk: (c, el) ->
     $el = $ el
     return if $el.hasClass 'copyonly'
-    switch el.nodeName
-      when '#text'
+
+    type = el.nodeName.toLowerCase()
+    if type is '#text'
+      type = 'text'
+    if $el.hasClass('inline_attachment_wrapper') or $el.hasClass('special_formatting_quote')
+      type = 'quote'
+
+    switch type
+      when 'text'
         c.addToken new Text $el
-      when 'BR'
+      when 'br'
         c.addToken new Br
-      when 'B'
+      when 'b'
         c.addToken @walkContents new Bold(), $el
-      when 'I'
+      when 'i'
         c.addToken @walkContents new Italic(), $el
-      when 'CODE'
+      when 'code'
         c.addToken @walkContents new Code(), $el
-      when 'PRE'
+      when 'pre'
         c.addToken @walkContents new Pre(), $el
-      when 'DIV'
-        if $el.hasClass 'special_formatting_quote'
-          c.addToken @walkContents new Quote(), $el
-        else
-          @walkContents c, $el
+      when 'quote'
+        c.addToken @walkContents new Quote(), $el
       else
         @walkContents c, $el
 
@@ -112,16 +118,9 @@ class Time extends Container
 class Message extends Container
 class MessageContent extends Container
 
-class PreSuf extends Container
-  pre: ''
-  suf: ''
-  toMarkdown: -> @pre + super() + @suf
-class Wrap extends PreSuf
+class Wrap extends Container
   pad: ''
-  constructor: ->
-    super
-    @pre = @pad
-    @suf = @pad
+  toMarkdown: -> @pad + super() + @pad
 class Bold extends Wrap
   pad: '**'
 class Italic extends Wrap
@@ -130,18 +129,18 @@ class Code extends Wrap
   pad: '`'
 class Pre extends Wrap
   pad: '```'
-class Oneline extends PreSuf
-  suf: '\n'
+
+class Quote extends Container
+  pre: '> '
+  br: '\n'
   toMarkdown: ->
-    chunks = [@pre]
+    chunks = [@br, @pre]
     for token in @childTokens
       chunks.push token.toMarkdown()
       if token instanceof Br
         chunks.push @pre
-    chunks.push @suf
+    chunks.push @br
     chunks.join ''
-class Quote extends Oneline
-  pre: '> '
 
 class Chunk extends Token
   identifier: ''
