@@ -125,3 +125,10 @@ describe 'Copier', ->
           > def
 
           """
+
+        markdown($(bot).find('.inline_attachment').contents()).should.equal """
+          abc
+          > def
+
+          """
+
