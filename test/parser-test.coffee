@@ -2,7 +2,7 @@ $ = require 'jquery'
 {markdown} = require '../src/content/parser.coffee'
 styles = require './styles.coffee'
 
-describe 'Copier', ->
+describe 'parser', ->
 
   describe '.markdown()', ->
 
@@ -14,8 +14,6 @@ describe 'Copier', ->
       while $c.contents().length
         $c = $c.contents().filter filterNotCopyonly
         $texts = $texts.add $c.filter filterText
-      # for text, i in $texts
-      #   console.log i, text
       $texts
 
     describe 'singleline', ->

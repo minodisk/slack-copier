@@ -14,12 +14,12 @@ class Parser
     $messages = $el.filter('.message').add($el.find('.message'))
     if $messages.length is 0
       $messages = $el.parents '.message'
-      console.log $messages.length
+      # console.log $messages.length
       return if $messages.length is 0
       root = @tokenizeMessages $messages
-      console.log 'before filter:', root.toString()
+      # console.log 'before filter:', root.toString()
       root.filter $el
-      console.log 'after filter :', root.toString()
+      # console.log 'after filter :', root.toString()
       return root
 
     @tokenizeMessages $messages

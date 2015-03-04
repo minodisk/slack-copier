@@ -8,6 +8,7 @@ module.exports = (config) ->
       'chai'
     ]
     files: [
+      # 'test/fixtures/*.html'
       'test/**/*-test.coffee'
     ]
     exclude: []
@@ -19,8 +20,14 @@ module.exports = (config) ->
     webpack:
       module:
         loaders: [
-          test: /\.coffee$/
-          loader: 'coffee-loader'
+            test: /\.coffee$/
+            loader: 'coffee'
+          ,
+            test: /\.html$/
+            loader: 'html'
+          ,
+            test: /\.(:?jpg|png|gif)$/
+            loader: 'file'
         ]
         postLoaders: [
           test: /\.coffee$/
