@@ -50,7 +50,7 @@ module.exports = (config) ->
     logLevel: config.LOG_INFO
     autoWatch: true
     browsers: [
-      'PhantomJS'
-      # 'Chrome'
+      # 'PhantomJS'
+      'Chrome'
     ]
     singleRun: false
