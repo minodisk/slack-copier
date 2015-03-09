@@ -17,9 +17,17 @@ describe 'copier', ->
     beforeEach ->
       selection.removeAllRanges()
 
-    it 'should parse normal text', ->
+    # it 'should parse normal text with message block', ->
+    #   range = document.createRange()
+    #   range.selectNode $('#msg_normal')[0]
+    #   selection.addRange range
+    #   copier.markdown().should.equal """
+    #   normal
+    #   """
+
+    it 'should parse normal text with message content', ->
       range = document.createRange()
-      range.selectNode $('#msg_normal')[0]
+      range.selectNode $('#msg_normal .message_content')[0]
       selection.addRange range
       copier.markdown().should.equal """
       normal
