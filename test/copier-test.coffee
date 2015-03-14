@@ -1,6 +1,5 @@
-{getSelectedContents} = require '../src/content/selection.coffee'
 $ = require 'jquery'
-copier = require '../src/content/copier.coffee'
+{markdown} = require '../src/content/copier.coffee'
 
 describe 'copier', ->
 
@@ -17,18 +16,85 @@ describe 'copier', ->
     beforeEach ->
       selection.removeAllRanges()
 
-    # it 'should parse normal text with message block', ->
-    #   range = document.createRange()
-    #   range.selectNode $('#msg_normal')[0]
-    #   selection.addRange range
-    #   copier.markdown().should.equal """
-    #   normal
-    #   """
+    select = (selector) ->
+      $ selector
+        .each ({}, el) ->
+          range = document.createRange()
+          range.selectNode el
+          selection.addRange range
+
+    it 'should parse normal text with message container', ->
+      select '#msg_normal'
+      markdown().should.equal """
+      normal
+      """
 
     it 'should parse normal text with message content', ->
-      range = document.createRange()
-      range.selectNode $('#msg_normal .message_content')[0]
-      selection.addRange range
-      copier.markdown().should.equal """
+      select '#msg_normal .message_content'
+      markdown().should.equal """
       normal
+      """
+
+    it 'should parse bold text with message container', ->
+      select '#msg_bold'
+      markdown().should.equal """
+      **bold**
+      """
+
+    it 'should parse bold text with message content', ->
+      select '#msg_bold .message_content'
+      markdown().should.equal """
+      **bold**
+      """
+
+    it 'should parse italic text with message container', ->
+      select '#msg_italic'
+      markdown().should.equal """
+      *italic*
+      """
+
+    it 'should parse italic text with message content', ->
+      select '#msg_italic .message_content'
+      markdown().should.equal """
+      *italic*
+      """
+
+    it 'should parse code text with message container', ->
+      select '#msg_code'
+      markdown().should.equal """
+      `code`
+      """
+
+    it 'should parse code text with message content', ->
+      select '#msg_code .message_content'
+      markdown().should.equal """
+      `code`
+      """
+
+    it 'should parse preformatted text with message container', ->
+      select '#msg_preformatted'
+      markdown().should.equal """
+      ```preformatted
+      text```
+      """
+
+    it 'should parse preformatted text with message content', ->
+      select '#msg_preformatted .message_content'
+      markdown().should.equal """
+      ```preformatted
+      text```
+      """
+
+    it 'should parse quoted text with message container', ->
+      select '#msg_quoted'
+      markdown().should.equal """
+      > quoted
+      > text
+      """
+
+    it 'should parse quoted text with message content', ->
+      select '#msg_quoted .message_content'
+      markdown().should.equal """
+      > quoted
+      > text
       """

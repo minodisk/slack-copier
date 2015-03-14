@@ -6,7 +6,7 @@ class Parser
   @markdown: (root) =>
     token = @parse root
     return '' unless token?
-    # console.log token.toString()
+    console.log token.toString()
     token.toMarkdown()
 
   @parse: (el) ->
@@ -74,6 +74,7 @@ class Token
   isEmpty: -> true
 
 class Container extends Token
+  joint: ''
   constructor: ->
     super
     @childTokens = []
@@ -111,7 +112,7 @@ class Container extends Token
     (
       for token in @childTokens
         token.toMarkdown()
-    ).join ''
+    ).join @joint
 
 class Root extends Container
 class Sender extends Container
@@ -129,6 +130,7 @@ class Italic extends Wrap
 class Code extends Wrap
   pad: '`'
 class Pre extends Wrap
+  joint: '\n'
   pad: '```'
 
 class Quote extends Container

@@ -20,12 +20,14 @@ gulp.task 'startTest', (done) ->
     configFile: KARMA_CONF
     singleRun: false
   , done
+  return
 
 gulp.task 'test', (done) ->
   karma.start
     configFile: KARMA_CONF
     singleRun: true
   , done
+  return
 
 gulp.task 'startBuild', ->
   for {src, renamed} in [
@@ -48,6 +50,7 @@ gulp.task 'startBuild', ->
         ]
       .pipe rename renamed
       .pipe gulp.dest 'dest'
+  return
 
 gulp.task 'release', ->
   pkg = JSON.parse fs.readFileSync PACKAGE_JSON
