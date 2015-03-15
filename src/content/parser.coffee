@@ -74,6 +74,8 @@ class Token
   isEmpty: -> true
 
 class Container extends Token
+  pre: ''
+  post: ''
   joint: ''
   constructor: ->
     super
@@ -111,7 +113,7 @@ class Container extends Token
   toMarkdown: ->
     (
       for token in @childTokens
-        token.toMarkdown()
+        @pre + token.toMarkdown() + @post
     ).join @joint
 
 class Root extends Container
@@ -135,15 +137,7 @@ class Pre extends Wrap
 
 class Quote extends Container
   pre: '> '
-  br: '\n'
-  toMarkdown: ->
-    chunks = [@br, @pre]
-    for token in @childTokens
-      chunks.push token.toMarkdown()
-      if token instanceof Br
-        chunks.push @pre
-    chunks.push @br
-    chunks.join ''
+  joint: '\n'
 
 class Chunk extends Token
   identifier: ''
