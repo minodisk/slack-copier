@@ -43,7 +43,7 @@ class Parser
 
   @walk: (c, el) ->
     $el = $ el
-    return if $el.hasClass 'copyonly'
+    return if $el.hasClass('copyonly') or $el.hasClass('edited')
 
     type = el.nodeName.toLowerCase()
     if type is '#text'
@@ -55,7 +55,7 @@ class Parser
       when 'text'
         c.addToken new Text $el
       when 'br'
-        c.addToken new Br
+        c.addToken new Br $el
       when 'b'
         c.addToken @walkContents new Bold(), $el
       when 'i'
@@ -100,8 +100,9 @@ class Container extends Token
     for token in @childTokens
       if token instanceof Chunk
         unless token.isSame $el
-          if token instanceof Br
-            console.log token.toString()
+          # if token instanceof Br
+          #   console.log $el[0], token._$el[0]
+          #   console.log $.contains $el, token._$el
           continue
         else
           childTokens.push token
@@ -134,12 +135,24 @@ class Italic extends Wrap
 class Code extends Wrap
   pad: '`'
 class Pre extends Wrap
-  joint: '\n'
+  # joint: '\n'
   pad: '```'
+  toMarkdown: ->
+    super() + '\n'
 
 class Quote extends Container
   pre: '> '
-  joint: '\n'
+  toMarkdown: ->
+    md = ''
+    isBreaking = true
+    @childTokens.forEach (token) =>
+      if isBreaking
+        isBreaking = false
+        md += @pre
+      if token instanceof Br
+        isBreaking = true
+      md += token.toMarkdown()
+    md
 
 class Chunk extends Token
   identifier: ''
@@ -162,7 +175,5 @@ class Text extends Chunk
       @identifier = identifier.replace /^\s*(.*?)\s*$/, '$1'
     @_isEmpty = @identifier is ''
   toString: -> "#{@constructor.name}(#{@identifier})"
-
-class Br extends Token
+class Br extends Chunk
   identifier: '\n'
-  toMarkdown: -> @identifier

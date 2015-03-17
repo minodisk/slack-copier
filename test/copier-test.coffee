@@ -76,6 +76,7 @@ describe 'copier', ->
       markdown().should.equal """
       ```preformatted
       text```
+
       """
 
     it 'should parse preformatted text with message content', ->
@@ -83,6 +84,7 @@ describe 'copier', ->
       markdown().should.equal """
       ```preformatted
       text```
+
       """
 
     it 'should parse quoted text with message container', ->
@@ -104,10 +106,10 @@ describe 'copier', ->
       markdown().should.equal """
       normal
       **bold**
-      *italics*
+      *italic*
       `code`
       ```preformatted
-      code```
-      >quoted
-      >text
+      text```
+      > quoted
+      > text
       """
