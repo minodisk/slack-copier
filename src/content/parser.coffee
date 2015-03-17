@@ -100,6 +100,8 @@ class Container extends Token
     for token in @childTokens
       if token instanceof Chunk
         unless token.isSame $el
+          if token instanceof Br
+            console.log token.toString()
           continue
         else
           childTokens.push token
@@ -160,5 +162,7 @@ class Text extends Chunk
       @identifier = identifier.replace /^\s*(.*?)\s*$/, '$1'
     @_isEmpty = @identifier is ''
   toString: -> "#{@constructor.name}(#{@identifier})"
-class Br extends Chunk
+
+class Br extends Token
   identifier: '\n'
+  toMarkdown: -> @identifier

@@ -1,5 +1,6 @@
 $ = require 'jquery'
 {markdown} = require '../src/content/copier.coffee'
+tokensHtml = require './fixtures/tokens.html'
 
 describe 'copier', ->
 
@@ -8,9 +9,8 @@ describe 'copier', ->
     [selection] = []
 
     before ->
-      html = require './fixtures/style.html'
       $ 'body'
-        .html html
+        .html tokensHtml
       selection = document.getSelection()
 
     beforeEach ->
@@ -97,4 +97,17 @@ describe 'copier', ->
       markdown().should.equal """
       > quoted
       > text
+      """
+
+    it 'should parse mixed text with message container', ->
+      select '#msg_mixed'
+      markdown().should.equal """
+      normal
+      **bold**
+      *italics*
+      `code`
+      ```preformatted
+      code```
+      >quoted
+      >text
       """
