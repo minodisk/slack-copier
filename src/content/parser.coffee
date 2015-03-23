@@ -6,7 +6,7 @@ class Parser
   @markdown: (root) =>
     token = @parse root
     return '' unless token?
-    console.log token.toString()
+    # console.log token.toString()
     token.toMarkdown()
 
   @parse: (el) ->
@@ -14,26 +14,33 @@ class Parser
     $messages = $el.filter('.message').add($el.find('.message'))
     if $messages.length is 0
       $messages = $el.parents '.message'
-      # console.log $messages.length
       return if $messages.length is 0
       root = @tokenizeMessages $messages
-      # console.log 'before filter:', root.toString()
       root.filter $el
-      # console.log 'after filter :', root.toString()
       return root
 
     @tokenizeMessages $messages
 
   @tokenizeMessages: ($messages) ->
     root = new Root
-    $messages.find '.message_content'
-      .each (i, messageContent) =>
-        root.addToken @tokenizeMessageContent $ messageContent
+    $messages
+      .each (i, message) =>
+        root.addToken @tokenizeMessage $ message
     root
 
-  @tokenizeMessageContent: ($messageContent) ->
-    mc = new MessageContent
-    @walkContents mc, $messageContent
+  @tokenizeMessage: ($message) ->
+    m = new Message
+    m.addToken new Sender $message.find '.message_sender'
+    m.addToken new Time $message.find '.timestamp'
+    $message
+      .find '.message_content'
+      .each (i, content) =>
+        m.addToken @tokenizeContent $ content
+    m
+
+  @tokenizeContent: ($content) ->
+    mc = new Content
+    @walkContents mc, $content
     mc
 
   @walkContents: (containerToken, $container) ->
@@ -71,6 +78,7 @@ class Parser
 
 
 class Token
+  constructor: (el) -> @$el = $ el
   isEmpty: -> true
 
 class Container extends Token
@@ -120,10 +128,8 @@ class Container extends Token
     ).join @joint
 
 class Root extends Container
-class Sender extends Container
-class Time extends Container
 class Message extends Container
-class MessageContent extends Container
+class Content extends Container
 
 class Wrap extends Container
   pad: ''
@@ -177,3 +183,14 @@ class Text extends Chunk
   toString: -> "#{@constructor.name}(#{@identifier})"
 class Br extends Chunk
   identifier: '\n'
+
+class Meta extends Text
+  isEmpty: -> false
+class Sender extends Meta
+  toMarkdown: ->
+    url = @_$el.prop 'href'
+    "[#{@identifier}](#{url})"
+class Time extends Meta
+  toMarkdown: ->
+    url = @_$el.prop 'href'
+    "[#{@identifier}](#{url})"
