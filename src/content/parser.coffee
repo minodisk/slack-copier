@@ -6,7 +6,7 @@ class Parser
   @markdown: (root) =>
     token = @parse root
     return '' unless token?
-    # console.log token.toString()
+    console.log token.toString()
     token.toMarkdown()
 
   @parse: (el) ->
@@ -107,13 +107,10 @@ class Container extends Token
     childTokens = []
     for token in @childTokens
       if token instanceof Chunk
-        unless token.isSame $el
-          # if token instanceof Br
-          #   console.log $el[0], token._$el[0]
-          #   console.log $.contains $el, token._$el
-          continue
-        else
+        if token instanceof Meta or token.isSame $el
           childTokens.push token
+        else
+          continue
       else
         token.filter $el
         continue if token.isEmpty()
@@ -147,7 +144,7 @@ class Pre extends Wrap
     super() + '\n'
 
 class Quote extends Container
-  pre: '> '
+  pre: '>'
   toMarkdown: ->
     md = ''
     isBreaking = true
@@ -173,6 +170,9 @@ class Chunk extends Token
   isEmpty: -> @_isEmpty
   toString: -> @constructor.name
   toMarkdown: -> @identifier
+
+class Br extends Chunk
+  identifier: '\n'
 class Text extends Chunk
   constructor: ->
     super
@@ -181,16 +181,14 @@ class Text extends Chunk
       @identifier = identifier.replace /^\s*(.*?)\s*$/, '$1'
     @_isEmpty = @identifier is ''
   toString: -> "#{@constructor.name}(#{@identifier})"
-class Br extends Chunk
-  identifier: '\n'
 
 class Meta extends Text
   isEmpty: -> false
 class Sender extends Meta
   toMarkdown: ->
     url = @_$el.prop 'href'
-    "[#{@identifier}](#{url})"
+    "**[#{@identifier}](#{url})** "
 class Time extends Meta
   toMarkdown: ->
     url = @_$el.prop 'href'
-    "[#{@identifier}](#{url})"
+    "*[#{@identifier}](#{url})*\n"
