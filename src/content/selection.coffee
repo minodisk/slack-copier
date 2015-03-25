@@ -14,8 +14,8 @@ class Selection
 
   @walk: (selection, container) =>
     $container = $ container
-    return $container if selection.containsNode container
     $contents = $()
+    return $contents.add $container if selection.containsNode container
     $container.contents().each (i, content) =>
       $contents = $contents.add @walk selection, content
     $contents

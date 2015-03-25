@@ -3,20 +3,24 @@ $ = require 'jquery'
 module.exports =
 class Parser
 
-  @markdown: (root) =>
-    token = @parse root
+  @markdown: ($container) =>
+    token = @parse $container
     return '' unless token?
     console.log token.toString()
     token.toMarkdown()
 
-  @parse: (el) ->
-    $el = $ el
-    $messages = $el.filter('.message').add($el.find('.message'))
+  @parse: ($container) ->
+    $messages = $container.find '.message'
+
     if $messages.length is 0
-      $messages = $el.parents '.message'
+      $container
+        .parents '.message'
+        .toArray()
+        .reverse()
+        .forEach (el) -> $messages = $messages.add el
       return if $messages.length is 0
       root = @tokenizeMessages $messages
-      root.filter $el
+      root.filter $container
       return root
 
     @tokenizeMessages $messages
@@ -126,6 +130,11 @@ class Container extends Token
 
 class Root extends Container
 class Message extends Container
+  toMarkdown: ->
+    md = super()
+    if md.slice(-1) isnt '\n'
+      md += '\n'
+    md
 class Content extends Container
 
 class Wrap extends Container
@@ -139,7 +148,7 @@ class Code extends Wrap
   pad: '`'
 class Pre extends Wrap
   # joint: '\n'
-  pad: '```'
+  pad: '\n```\n'
   toMarkdown: ->
     super() + '\n'
 
