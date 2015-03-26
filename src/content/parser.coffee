@@ -10,18 +10,25 @@ class Parser
     token.toMarkdown()
 
   @parse: ($container) ->
-    $messages = $container.find '.message'
+    $messages = $()
 
-    if $messages.length is 0
-      $container
-        .parents '.message'
-        .toArray()
-        .reverse()
-        .forEach (el) -> $messages = $messages.add el
-      return if $messages.length is 0
-      root = @tokenizeMessages $messages
-      root.filter $container
-      return root
+    $container
+      .each (i, el) ->
+        $el = $ el
+        if ($message = $el.filter '.message').length isnt 0
+          $messages = $messages.add $message
+          return
+        if ($message = $el.find '.message').length isnt 0
+          $messages = $messages.add $message
+          return
+        if ($message = $el.closest '.message').length isnt 0
+          $messages = $messages.add $message
+          return
+
+    return if $messages.length is 0
+    root = @tokenizeMessages $messages
+    root.filter $container
+    return root
 
     @tokenizeMessages $messages
 

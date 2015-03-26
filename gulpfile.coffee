@@ -5,6 +5,7 @@ rename = require 'gulp-rename'
 {server: karma} = require 'karma'
 BowerWebpackPlugin = require 'bower-webpack-plugin'
 fs = require 'fs'
+{join} = require 'path'
 {inc} = require 'semver'
 
 KARMA_CONF = "#{__dirname}/karma.conf.coffee"
@@ -34,11 +35,13 @@ gulp.task 'startBuild', ->
     watch: true
     colors: true
     entry:
-      content: 'src/content/main'
-      bacground: 'src/background/main'
+      content: './src/content/main'
+      background: './src/background/main'
     output:
-      path: 'dest'
+      path: join __dirname, 'dest'
       filename: 'slack-copier-[name].js'
+    resolve:
+      extensions: ['', '.js', '.coffee']
     module:
       loaders: [
         test: /\.coffee$/
@@ -47,6 +50,12 @@ gulp.task 'startBuild', ->
     plugins: [
       new BowerWebpackPlugin
     ]
+  , (err, stats) ->
+    throw new PluginError 'webpack', err if err?
+    console.log stats.toString
+      colors: true
+      chunkModules: false
+  return
 
 gulp.task 'release', ->
   pkg = JSON.parse fs.readFileSync PACKAGE_JSON

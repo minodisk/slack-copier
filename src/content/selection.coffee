@@ -3,22 +3,22 @@ $ = require 'jquery'
 module.exports =
 class Selection
 
-  @getSelectedContents: =>
+  @getSelectedItems: =>
     selection = window.getSelection()
     len = selection.rangeCount
-    $contents = $()
+    $items = $()
     for i in [0...len] by 1
       range = selection.getRangeAt i
-      $contents = $contents.add @walk selection, range.commonAncestorContainer
-    $contents
+      $items = $items.add @walk selection, range.commonAncestorContainer
+    $items
 
-  @walk: (selection, container) =>
-    $container = $ container
-    $contents = $()
-    if selection.containsNode container
-      console.log '--------'
-      console.log container
-      return $contents.add $container
-    $container.contents().each (i, content) =>
-      $contents = $contents.add @walk selection, content
-    $contents
+  @walk: (selection, parent) =>
+    $parent = $ parent
+    $items = $()
+    if selection.containsNode parent
+      return $items.add $parent
+    $parent
+      .contents()
+      .each (i, content) =>
+        $items = $items.add @walk selection, content
+    $items

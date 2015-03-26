@@ -1,6 +1,6 @@
-{getSelectedContents} = require './selection.coffee'
+{getSelectedItems} = require './selection.coffee'
 {markdown} = require './parser.coffee'
 
 module.exports =
 
-  markdown: -> markdown getSelectedContents()
+  markdown: -> markdown getSelectedItems()
