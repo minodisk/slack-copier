@@ -15,7 +15,10 @@ class Selection
   @walk: (selection, container) =>
     $container = $ container
     $contents = $()
-    return $contents.add $container if selection.containsNode container
+    if selection.containsNode container
+      console.log '--------'
+      console.log container
+      return $contents.add $container
     $container.contents().each (i, content) =>
       $contents = $contents.add @walk selection, content
     $contents

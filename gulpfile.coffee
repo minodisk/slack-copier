@@ -1,6 +1,6 @@
 gulp = require 'gulp'
 {exec} = require 'child_process'
-webpack = require 'gulp-webpack'
+webpack = require 'webpack'
 rename = require 'gulp-rename'
 {server: karma} = require 'karma'
 BowerWebpackPlugin = require 'bower-webpack-plugin'
@@ -30,27 +30,23 @@ gulp.task 'test', (done) ->
   return
 
 gulp.task 'startBuild', ->
-  for {src, renamed} in [
-      src: 'src/content/main.coffee'
-      renamed: 'slack-copier-content.js'
-    ,
-      src: 'src/background/main.coffee'
-      renamed: 'slack-copier-background.js'
-  ]
-    gulp.src src
-      .pipe webpack
-        watch: true
-        module:
-          loaders: [
-            test: /\.coffee$/
-            loader: 'coffee-loader'
-          ]
-        plugins: [
-          new BowerWebpackPlugin
-        ]
-      .pipe rename renamed
-      .pipe gulp.dest 'dest'
-  return
+  webpack
+    watch: true
+    colors: true
+    entry:
+      content: 'src/content/main'
+      bacground: 'src/background/main'
+    output:
+      path: 'dest'
+      filename: 'slack-copier-[name].js'
+    module:
+      loaders: [
+        test: /\.coffee$/
+        loader: 'coffee-loader'
+      ]
+    plugins: [
+      new BowerWebpackPlugin
+    ]
 
 gulp.task 'release', ->
   pkg = JSON.parse fs.readFileSync PACKAGE_JSON

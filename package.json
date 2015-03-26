@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "file-loader": "^0.8.1",
-    "html-loader": "^0.2.3"
+    "html-loader": "^0.2.3",
+    "webpack": "^1.7.3"
   }
 }

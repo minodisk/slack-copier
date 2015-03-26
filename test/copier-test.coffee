@@ -21,11 +21,9 @@ describe "copier", ->
       $wrapper = $el
         .wrapAll '<div>'
         .parent()
-      console.log $el.parent().attr 'class'
       selection.selectAllChildren $wrapper[0]
       cb()
       $el.unwrap()
-      console.log '->', $el.parent().attr 'class'
 
     describe "single message", ->
 
@@ -164,5 +162,17 @@ describe "copier", ->
           normal\n
           \*\*\[.+\]\(https?:\/\/.+\)\*\*\s\*\[\d{2}:\d{2}\]\(https?:\/\/.+\)\*\n
           \*\*bold\*\*\n
+          $///
+          done()
+
+      it 'should parse normal and bold texts', (done) ->
+        select '#msg_normal, #msg_bold, #msg_italic', ->
+          markdown().should.match ///^
+          \*\*\[.+\]\(https?:\/\/.+\)\*\*\s\*\[\d{2}:\d{2}\]\(https?:\/\/.+\)\*\n
+          normal\n
+          \*\*\[.+\]\(https?:\/\/.+\)\*\*\s\*\[\d{2}:\d{2}\]\(https?:\/\/.+\)\*\n
+          \*\*bold\*\*\n
+          \*\*\[.+\]\(https?:\/\/.+\)\*\*\s\*\[\d{2}:\d{2}\]\(https?:\/\/.+\)\*\n
+          \*italic\*\n
           $///
           done()
